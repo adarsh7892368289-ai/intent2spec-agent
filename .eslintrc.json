@@ -1,0 +1,20 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es2022": true,
+    "node": true,
+    "webextensions": true
+  },
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "extends": ["eslint:recommended"],
+  "ignorePatterns": ["dist/**", "node_modules/**", "out/**", "release/**", ".playwright-browsers/**"],
+  "rules": {
+    "no-unused-vars": "warn",
+    "no-console": "off",
+    "no-prototype-builtins": "warn"
+  }
+}

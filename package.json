@@ -1,0 +1,66 @@
+{
+  "name": "element-tracker-desktop",
+  "version": "3.0.0",
+  "private": true,
+  "description": "Element tracker desktop app — resilient XPath/CSS selector capture across browsers and OSes",
+  "main": "dist/index.js",
+  "keywords": [
+    "element-tracking",
+    "xpath",
+    "css-selector",
+    "electron",
+    "playwright"
+  ],
+  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adarsh7892368289-ai/chrome-interaction-tracker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/adarsh7892368289-ai/chrome-interaction-tracker/issues"
+  },
+  "homepage": "https://github.com/adarsh7892368289-ai/chrome-interaction-tracker#readme",
+  "license": "MIT",
+  "scripts": {
+    "start": "concurrently \"npm run watch:bundle\" \"npm run watch:main\" \"npm run watch:renderer\" \"electron .\"",
+    "watch:bundle": "webpack --config webpack.bundle.config.js --watch",
+    "watch:main": "webpack --config webpack.main.config.js --watch",
+    "watch:renderer": "webpack --config webpack.renderer.config.js --watch",
+    "build:bundle": "webpack --config webpack.bundle.config.js",
+    "build:main": "webpack --config webpack.main.config.js",
+    "build:renderer": "webpack --config webpack.renderer.config.js",
+    "build": "npm run build:bundle && npm run build:main && npm run build:renderer",
+    "smoke-test": "electron . --smoke-test",
+    "lint": "eslint src/",
+    "format": "prettier --write \"src/**/*.{js,css}\"",
+    "dist": "npm run build && electron-builder --publish never",
+    "dist:win": "npm run build && cross-env CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder --win --publish never",
+    "dist:mac": "npm run build && electron-builder --mac --publish never",
+    "dist:linux": "npm run build && electron-builder --linux --publish never",
+    "install:browsers": "playwright install chromium firefox webkit",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "dependencies": {
+    "electron-log": "^5.1.2",
+    "playwright": "^1.48.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.28.5",
+    "@babel/preset-env": "^7.28.5",
+    "@electron/fuses": "^1.8.0",
+    "babel-loader": "^10.0.0",
+    "concurrently": "^8.2.2",
+    "copy-webpack-plugin": "^13.0.1",
+    "cross-env": "^7.0.3",
+    "css-loader": "^7.1.2",
+    "electron": "^41.1.1",
+    "electron-builder": "^26.8.1",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "fake-indexeddb": "^6.2.5",
+    "prettier": "^3.6.2",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.102.1",
+    "webpack-cli": "^6.0.1"
+  }
+}

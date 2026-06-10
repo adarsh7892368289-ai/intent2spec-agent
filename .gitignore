@@ -1,0 +1,69 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+release/
+out/
+*.zip
+
+# Electron / Playwright
+.playwright-browsers/
+playwright-browsers/
+electron-builder-cache/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE / editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Temporary / backup files
+*.tmp
+*.temp
+*.bak
+*.orig
+
+# Chrome extension
+*.crx
+*.pem
+
+# Source maps and caches
+dist/**/*.map
+.cache/
+.parcel-cache/
+.eslintcache
+
+# Test / coverage output
+coverage/
+.nyc_output/
+
+# AI tooling local state
+.claude/
+.aider*
+.cursor/
+
+# Package manager lockfiles (if you use npm lockfile you can remove this)
+yarn.lock
+
+# Local-only docs and scratch
+TODO.md
+temp.js
+*.local.md

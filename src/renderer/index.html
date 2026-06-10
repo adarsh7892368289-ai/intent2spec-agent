@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' app:; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: app:; font-src 'self' data:; connect-src 'self' app:; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Element Tracker</title>
+  <script src="theme-bootstrap.js"></script>
+  <link rel="stylesheet" href="styles/tokens.css">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/shell.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/report-list.css">
+  <link rel="stylesheet" href="styles/navigation.css">
+  <link rel="stylesheet" href="styles/tracker.css">
+</head>
+<body>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <div id="modal-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-box" id="modal-box"></div>
+  </div>
+
+  <div id="app-root">
+
+    <div id="system-banner-slot" aria-live="assertive"></div>
+
+    <!-- Sidebar: captured-data summary + data management -->
+    <div id="left-panel" role="complementary" aria-label="Captured data" data-panel="left" data-rail-state="full" data-collapsed="false" data-density="default">
+      <div class="left-panel__top">
+        <button type="button" class="panel-toggle-btn" id="panel-toggle-btn" aria-controls="left-panel" aria-label="Collapse sidebar" aria-expanded="true"></button>
+        <div class="left-panel__top-main">
+          <div class="card card--toolbar">
+            <h2 class="section-title">Captured Data</h2>
+          </div>
+        </div>
+      </div>
+
+      <div id="captures-list" class="reports-list" aria-label="Captured data by mode"></div>
+
+      <div class="left-panel__footer">
+        <div class="storage-display">
+          <span class="storage-label">Storage</span>
+          <span class="storage-value" id="storage-value">0 MB</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="main-content" role="main">
+
+      <nav id="main-pane-section-nav" class="main-pane-section-nav" aria-label="Main pane sections" role="tablist">
+        <button type="button" class="main-pane-section-nav__btn" data-main-pane-section="record" role="tab" aria-selected="true" aria-controls="section-record">Record</button>
+        <button type="button" class="main-pane-section-nav__btn" data-main-pane-section="scan" role="tab" aria-selected="false" aria-controls="section-scan">Scan</button>
+      </nav>
+
+      <!-- ============ RECORD (Interactions / Hybrid) ============ -->
+      <div class="tab-panel" id="section-record" role="tabpanel">
+        <section class="panel active">
+
+          <div class="card">
+            <div class="form-field">
+              <label class="label" for="record-url">Start URL</label>
+              <input class="input" id="record-url" type="url" placeholder="https://example.com" autocomplete="off">
+            </div>
+
+            <div id="browser-selector-slot"></div>
+
+            <div class="card-header">
+              <h2 class="card-title">Tracking Mode</h2>
+            </div>
+            <div class="mode-selector" role="radiogroup" aria-label="Tracking mode">
+              <label class="mode-option">
+                <input type="radio" name="record-mode" value="interactions" checked>
+                <span class="mode-card">Interactions</span>
+              </label>
+              <label class="mode-option">
+                <input type="radio" name="record-mode" value="hybrid">
+                <span class="mode-card">Hybrid</span>
+              </label>
+            </div>
+            <p class="field-hint">Interactions records clicks, inputs, forms, navigation and scroll as you drive the browser. Hybrid also lets you trigger full-page scans on demand.</p>
+
+            <div class="card-header">
+              <h2 class="card-title">Capture Types</h2>
+            </div>
+            <div class="capture-toggles" id="capture-toggles">
+              <label class="toggle-pill"><input type="checkbox" data-setting="captureClicks" checked> Clicks</label>
+              <label class="toggle-pill"><input type="checkbox" data-setting="captureInputs" checked> Inputs</label>
+              <label class="toggle-pill"><input type="checkbox" data-setting="captureForms" checked> Forms</label>
+              <label class="toggle-pill"><input type="checkbox" data-setting="captureNavigation" checked> Navigation</label>
+              <label class="toggle-pill"><input type="checkbox" data-setting="captureScroll" checked> Scroll</label>
+            </div>
+          </div>
+
+          <div class="record-actions">
+            <button class="btn-primary" id="record-start-btn">
+              <span class="btn-label">Start Recording</span>
+            </button>
+            <button class="btn-destructive" id="record-stop-btn" hidden>
+              <span class="btn-label">Stop Recording</span>
+            </button>
+            <button class="btn-ghost" id="hybrid-scan-btn" hidden>
+              <span class="btn-label">Scan Now</span>
+            </button>
+          </div>
+
+          <div id="record-live" class="card" hidden>
+            <div class="card-header"><h2 class="card-title">Live Capture</h2><span class="rec-dot" aria-hidden="true"></span></div>
+            <div class="stats-grid" id="live-stats"></div>
+          </div>
+
+          <div id="record-error" class="error-msg" aria-live="polite"></div>
+        </section>
+      </div>
+
+      <!-- ============ SCAN (Element Scan, automated) ============ -->
+      <div class="tab-panel" id="section-scan" role="tabpanel" hidden>
+        <section class="panel active">
+          <div class="card">
+            <div class="form-field">
+              <label class="label" for="scan-url">Page URL</label>
+              <input class="input" id="scan-url" type="url" placeholder="https://example.com" autocomplete="off">
+            </div>
+
+            <div id="scan-browser-selector-slot"></div>
+
+            <div class="card-header">
+              <h2 class="card-title">Filters</h2>
+              <span class="badge-optional">optional</span>
+            </div>
+            <div class="form-field">
+              <label class="label" for="scan-filters">CSS selectors / classes</label>
+              <input class="input" id="scan-filters" type="text" placeholder="e.g. .product-card, #header">
+              <p class="field-hint">Comma-separated. Leave empty to scan all interactive elements.</p>
+            </div>
+          </div>
+
+          <button class="btn-primary" id="scan-btn">
+            <span class="btn-label">Scan Page</span>
+          </button>
+          <button class="btn-ghost" id="scan-cancel-btn" hidden>
+            <span class="btn-label">Cancel</span>
+          </button>
+
+          <div class="progress-container">
+            <div id="scan-progress" class="progress-wrap" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Scan progress" hidden>
+              <div class="progress-track"><div class="progress-fill" id="scan-progress-bar"></div></div>
+              <div class="progress-label-row">
+                <span class="progress-label" id="scan-progress-label">Scanning…</span>
+              </div>
+            </div>
+          </div>
+
+          <div id="scan-error" class="error-msg" aria-live="polite"></div>
+        </section>
+      </div>
+
+    </div>
+
+    <div id="status-bar" role="contentinfo" aria-label="Application status">
+      <div class="status-left"></div>
+      <div class="status-center" aria-live="polite" role="status"></div>
+      <div class="status-right">
+        <div class="status-right__hint" aria-live="polite"></div>
+        <button type="button" id="theme-toggle" class="theme-toggle"
+                aria-label="Switch to light theme" aria-pressed="false" title="Toggle theme">
+          <svg class="theme-toggle__icon theme-toggle__icon--moon" width="14" height="14"
+               viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg class="theme-toggle__icon theme-toggle__icon--sun" width="14" height="14"
+               viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
