@@ -1,0 +1,37 @@
+'use strict';
+
+module.exports = Object.freeze({
+  // Meta
+  GET_VERSION: 'GET_VERSION',
+  GET_AVAILABLE_BROWSERS: 'GET_AVAILABLE_BROWSERS',
+  GET_HOST_MEMORY: 'GET_HOST_MEMORY',
+
+  // Automated Element Scan
+  SCAN_PAGE: 'SCAN_PAGE',
+  SCAN_PROGRESS: 'SCAN_PROGRESS',
+
+  // Headed Record sessions (Interactions / Hybrid)
+  START_RECORD_SESSION: 'START_RECORD_SESSION',
+  STOP_RECORD_SESSION: 'STOP_RECORD_SESSION',
+  RECORD_EVENT: 'RECORD_EVENT',
+  RECORD_SCAN: 'RECORD_SCAN',
+  RECORD_SESSION_CLOSED: 'RECORD_SESSION_CLOSED',
+  TRIGGER_RECORD_SCAN: 'TRIGGER_RECORD_SCAN',
+
+  // AI Automation (headless Claude Code)
+  AI_CHECK_CLI: 'AI_CHECK_CLI',
+  AI_RUN: 'AI_RUN',
+  AI_CANCEL: 'AI_CANCEL',
+  AI_PROGRESS: 'AI_PROGRESS',
+
+  // Cancellation
+  CANCEL_OPERATION: 'CANCEL_OPERATION',
+
+  // Export (save dialog + write)
+  EXPORT_FILE: 'EXPORT_FILE',
+
+  // Window / chrome
+  SET_WINDOW_TITLE: 'SET_WINDOW_TITLE',
+  MENU_ACTION: 'menu-action',
+  APP_NOTIFICATION: 'APP_NOTIFICATION',
+});

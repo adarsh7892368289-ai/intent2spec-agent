@@ -1,0 +1,51 @@
+appId: com.agentic-test-automation.app
+productName: Agentic Test Automation
+copyright: Copyright © 2026 Agentic Test Automation
+afterPack: ./scripts/afterpack-fuses.js
+directories:
+  buildResources: build
+  output: release
+files:
+  - dist/**/*
+  - "!dist/**/*.map"
+  - package.json
+  - node_modules/**/*
+asar: true
+asarUnpack:
+  - dist/tracker-bundle.js
+  - "**/node_modules/playwright/**"
+  - "**/*.node"
+extraResources:
+  - from: .playwright-browsers
+    to: browsers
+    filter:
+      - "**/*"
+npmRebuild: true
+mac:
+  category: public.app-category.developer-tools
+  target:
+    - target: dmg
+      arch:
+        - x64
+        - arm64
+win:
+  signAndEditExecutable: false
+  target:
+    - target: nsis
+      arch:
+        - x64
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+linux:
+  category: Development
+  maintainer: Agentic Test Automation <noreply@localhost>
+  synopsis: Resilient XPath/CSS selector capture desktop app.
+  target:
+    - AppImage
+    - deb
+  desktop:
+    entry:
+      Name: Agentic Test Automation
+      Comment: Resilient XPath/CSS selector capture desktop app.
+      Categories: Development;

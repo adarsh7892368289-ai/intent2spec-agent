@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' app:; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: app:; font-src 'self' data:; connect-src 'self' app:; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agentic Test Automation</title>
+  <script src="theme-bootstrap.js"></script>
+  <link rel="stylesheet" href="styles/tokens.css">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/shell.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/report-list.css">
+  <link rel="stylesheet" href="styles/navigation.css">
+  <link rel="stylesheet" href="styles/tracker.css">
+</head>
+<body>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <div id="modal-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-box" id="modal-box"></div>
+  </div>
+
+  <div id="app-root">
+
+    <div id="system-banner-slot" aria-live="assertive"></div>
+
+    <!-- Sidebar: reports list (one report per scan / recording) -->
+    <div id="left-panel" role="complementary" aria-label="Reports" data-panel="left" data-rail-state="full" data-collapsed="false" data-density="default">
+      <div class="left-panel__top">
+        <button type="button" class="panel-toggle-btn" id="panel-toggle-btn" aria-controls="left-panel" aria-label="Collapse sidebar" aria-expanded="true"></button>
+        <div class="left-panel__top-main">
+          <div class="left-tabs" role="tablist" aria-label="Sidebar sections">
+            <button type="button" class="left-tabs__btn" id="left-tab-reports" data-left-tab="reports" role="tab" aria-selected="true">Reports</button>
+            <button type="button" class="left-tabs__btn" id="left-tab-ai" data-left-tab="ai" role="tab" aria-selected="false">AI Tests</button>
+          </div>
+          <div class="card card--toolbar">
+            <h2 class="section-title" id="left-pane-title">Reports</h2>
+            <div class="section-row-actions">
+              <button type="button" class="btn-ghost btn-sm" id="clear-all-reports-btn">Clear all</button>
+              <button type="button" class="btn-ghost btn-sm" id="clear-all-ai-btn" hidden>Clear all</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reports list -->
+      <div id="reports-pane">
+        <div id="reports-list" class="reports-list" role="list" aria-label="Reports"></div>
+        <div id="reports-empty" class="empty-state" aria-live="polite">
+          <div class="empty-state__panel" data-state="empty">
+            <p class="empty-title">No reports yet</p>
+            <p class="empty-hint">Record interactions or scan a page to capture your first report</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Tests list -->
+      <div id="ai-tests-pane" hidden>
+        <div id="ai-tests-list" class="reports-list" role="list" aria-label="AI Tests"></div>
+        <div id="ai-tests-empty" class="empty-state" aria-live="polite">
+          <div class="empty-state__panel" data-state="empty">
+            <p class="empty-title">No AI tests yet</p>
+            <p class="empty-hint">Generate a test from plain English in the AI Automation tab</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="left-panel__footer">
+        <div class="storage-display">
+          <span class="storage-label">Storage</span>
+          <span class="storage-value" id="storage-value">0 MB</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="main-content" role="main">
+
+      <nav id="main-pane-section-nav" class="main-pane-section-nav" aria-label="Main pane sections" role="tablist">
+        <button type="button" class="main-pane-section-nav__btn" data-main-pane-section="interactions" role="tab" aria-selected="true" aria-controls="section-interactions">Interactions</button>
+        <button type="button" class="main-pane-section-nav__btn" data-main-pane-section="scan" role="tab" aria-selected="false" aria-controls="section-scan">Element Scan</button>
+        <button type="button" class="main-pane-section-nav__btn" data-main-pane-section="hybrid" role="tab" aria-selected="false" aria-controls="section-hybrid">Hybrid</button>
+        <button type="button" class="main-pane-section-nav__btn" data-main-pane-section="ai" role="tab" aria-selected="false" aria-controls="section-ai">AI Automation</button>
+      </nav>
+
+      <!-- ============ INTERACTIONS (live record) ============ -->
+      <div class="tab-panel" id="section-interactions" role="tabpanel">
+        <section class="panel active">
+          <div class="card">
+            <div class="form-field">
+              <label class="label" for="interactions-url">Start URL</label>
+              <input class="input" id="interactions-url" type="url" placeholder="https://example.com" autocomplete="off">
+            </div>
+            <div data-browser-slot></div>
+            <p class="field-hint">Records clicks, inputs, forms, navigation and scroll as you drive the launched browser. Each recording is saved as one report.</p>
+
+            <div class="card-header"><h2 class="card-title">Capture Types</h2></div>
+            <div class="capture-toggles" data-capture-toggles>
+              <label class="toggle-pill"><input type="checkbox" data-setting="captureClicks" checked> Clicks</label>
+              <label class="toggle-pill"><input type="checkbox" data-setting="captureInputs" checked> Inputs</label>
+              <label class="toggle-pill"><input type="checkbox" data-setting="captureForms" checked> Forms</label>
+              <label class="toggle-pill"><input type="checkbox" data-setting="captureNavigation" checked> Navigation</label>
+              <label class="toggle-pill"><input type="checkbox" data-setting="captureScroll" checked> Scroll</label>
+            </div>
+          </div>
+
+          <div class="record-actions">
+            <button class="btn-primary" data-record-start="interactions"><span class="btn-label">Start Recording</span></button>
+            <button class="btn-destructive" data-record-stop hidden><span class="btn-label">Stop Recording</span></button>
+          </div>
+
+          <div class="card" data-record-live hidden>
+            <div class="card-header"><h2 class="card-title">Live Capture</h2><span class="rec-dot" aria-hidden="true"></span></div>
+            <div class="stats-grid" data-live-stats></div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ============ ELEMENT SCAN (automated) ============ -->
+      <div class="tab-panel" id="section-scan" role="tabpanel" hidden>
+        <section class="panel active">
+          <div class="card">
+            <div class="form-field">
+              <label class="label" for="scan-url">Page URL</label>
+              <input class="input" id="scan-url" type="url" placeholder="https://example.com" autocomplete="off">
+            </div>
+            <div data-browser-slot></div>
+            <div class="card-header"><h2 class="card-title">Filters</h2><span class="badge-optional">optional</span></div>
+            <div class="form-field">
+              <label class="label" for="scan-filters">CSS selectors / classes</label>
+              <input class="input" id="scan-filters" type="text" placeholder="e.g. .product-card, #header">
+              <p class="field-hint">Comma-separated. Leave empty to scan all interactive elements.</p>
+            </div>
+          </div>
+
+          <button class="btn-primary" id="scan-btn"><span class="btn-label">Scan Page</span></button>
+          <button class="btn-ghost" id="scan-cancel-btn" hidden><span class="btn-label">Cancel</span></button>
+
+          <div class="progress-container">
+            <div id="scan-progress" class="progress-wrap" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Scan progress" hidden>
+              <div class="progress-track"><div class="progress-fill" id="scan-progress-bar"></div></div>
+              <div class="progress-label-row"><span class="progress-label" id="scan-progress-label">Scanning…</span></div>
+            </div>
+          </div>
+          <div id="scan-error" class="error-msg" aria-live="polite"></div>
+        </section>
+      </div>
+
+      <!-- ============ HYBRID (record + on-demand scan) ============ -->
+      <div class="tab-panel" id="section-hybrid" role="tabpanel" hidden>
+        <section class="panel active">
+          <div class="card">
+            <div class="form-field">
+              <label class="label" for="hybrid-url">Start URL</label>
+              <input class="input" id="hybrid-url" type="url" placeholder="https://example.com" autocomplete="off">
+            </div>
+            <div data-browser-slot></div>
+            <p class="field-hint">Records interactions <strong>and</strong> lets you trigger full-page scans on demand during the session. Saved as one combined report.</p>
+
+            <div class="card-header"><h2 class="card-title">Capture Types</h2></div>
+            <div class="capture-toggles" data-capture-toggles>
+              <label class="toggle-pill"><input type="checkbox" data-setting="captureClicks" checked> Clicks</label>
+              <label class="toggle-pill"><input type="checkbox" data-setting="captureInputs" checked> Inputs</label>
+              <label class="toggle-pill"><input type="checkbox" data-setting="captureForms" checked> Forms</label>
+              <label class="toggle-pill"><input type="checkbox" data-setting="captureNavigation" checked> Navigation</label>
+              <label class="toggle-pill"><input type="checkbox" data-setting="captureScroll" checked> Scroll</label>
+            </div>
+
+            <div class="card-header"><h2 class="card-title">On-demand Scan</h2></div>
+            <div class="form-field">
+              <label class="label" for="hybrid-filters">Scan filters</label>
+              <input class="input" id="hybrid-filters" type="text" placeholder="e.g. .product-card (optional)">
+            </div>
+          </div>
+
+          <div class="record-actions">
+            <button class="btn-primary" data-record-start="hybrid"><span class="btn-label">Start Recording</span></button>
+            <button class="btn-destructive" data-record-stop hidden><span class="btn-label">Stop Recording</span></button>
+            <button class="btn-ghost" id="hybrid-scan-now-btn" hidden><span class="btn-label">Scan Now</span></button>
+          </div>
+
+          <div class="card" data-record-live hidden>
+            <div class="card-header"><h2 class="card-title">Live Capture</h2><span class="rec-dot" aria-hidden="true"></span></div>
+            <div class="stats-grid" data-live-stats></div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ============ AI AUTOMATION (NL → Playwright via headless Claude Code) ============ -->
+      <div class="tab-panel" id="section-ai" role="tabpanel" hidden>
+        <section class="panel active">
+
+          <div id="ai-cli-banner" class="system-banner system-banner--warning" hidden>
+            <span id="ai-cli-banner-text">Claude Code is required for AI Automation.</span>
+          </div>
+
+          <div class="card">
+            <div class="form-field">
+              <label class="label" for="ai-url">Start URL</label>
+              <input class="input" id="ai-url" type="url" placeholder="https://example.com" autocomplete="off">
+            </div>
+            <div data-browser-slot></div>
+            <div class="form-field">
+              <label class="label" for="ai-report">Grounding report</label>
+              <select class="input" id="ai-report"><option value="">None (discover live)</option></select>
+              <p class="field-hint">Optional. A captured report gives the AI a head-start; it still scans live pages as it goes.</p>
+            </div>
+            <div class="form-field">
+              <label class="label" for="ai-steps">Steps (plain English)</label>
+              <textarea class="input" id="ai-steps" rows="6" placeholder="1. Log in as standard_user / secret&#10;2. Click the Orders menu&#10;3. Fill the new-order form: quantity 2, product Mouse&#10;4. Submit&#10;5. Confirm the page shows 'Order confirmed'"></textarea>
+            </div>
+          </div>
+
+          <div class="record-actions">
+            <button class="btn-primary" id="ai-run-btn"><span class="btn-label">Generate Test</span></button>
+            <button class="btn-destructive" id="ai-cancel-btn" hidden><span class="btn-label">Cancel</span></button>
+          </div>
+
+          <div id="ai-stream" class="card ai-stream" hidden>
+            <div class="card-header"><h2 class="card-title">AI Progress</h2><span class="rec-dot" id="ai-running-dot" aria-hidden="true" hidden></span></div>
+            <div id="ai-stream-log" class="ai-stream__log" aria-live="polite"></div>
+          </div>
+
+          <div id="ai-result" class="card" hidden>
+            <div class="card-header">
+              <h2 class="card-title">Generated Test</h2>
+              <div class="report-details__header-actions">
+                <button type="button" class="btn-ghost btn-sm" id="ai-export-btn">Export .spec</button>
+              </div>
+            </div>
+            <div id="ai-verdict" class="ai-verdict"></div>
+            <pre id="ai-spec" class="ai-spec"><code></code></pre>
+          </div>
+
+          <div id="ai-error" class="error-msg" aria-live="polite"></div>
+        </section>
+      </div>
+
+      <!-- ============ REPORT DETAILS (overlays the active section when a report is open) ============ -->
+      <section id="report-details" class="panel report-details" hidden></section>
+
+      <!-- ============ AI TEST DETAILS (overlays when an AI test is open) ============ -->
+      <section id="ai-test-details" class="panel report-details" hidden></section>
+
+    </div>
+
+    <div id="status-bar" role="contentinfo" aria-label="Application status">
+      <div class="status-left"></div>
+      <div class="status-center" aria-live="polite" role="status"></div>
+      <div class="status-right">
+        <div class="status-right__hint" aria-live="polite"></div>
+        <button type="button" id="theme-toggle" class="theme-toggle"
+                aria-label="Switch to light theme" aria-pressed="false" title="Toggle theme">
+          <svg class="theme-toggle__icon theme-toggle__icon--moon" width="14" height="14"
+               viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg class="theme-toggle__icon theme-toggle__icon--sun" width="14" height="14"
+               viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

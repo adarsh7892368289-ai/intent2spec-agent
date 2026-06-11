@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Scan Fixture</title>
+</head>
+<body>
+  <header>
+    <h1>Integration Fixture</h1>
+    <nav aria-label="Main">
+      <a href="/home" id="nav-home" data-testid="nav-home">Home</a>
+      <a href="/orders">Orders</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- A login-style form: labels, inputs, button -->
+    <form id="login-form" aria-label="Login">
+      <label for="username">Username</label>
+      <input id="username" name="username" type="text" data-testid="username-input" placeholder="Enter username" autocomplete="off">
+
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" placeholder="Enter password" autocomplete="off">
+
+      <label><input type="checkbox" id="remember" name="remember"> Remember me</label>
+
+      <select id="role" name="role" aria-label="Role">
+        <option value="user">User</option>
+        <option value="admin">Admin</option>
+      </select>
+
+      <button type="submit" id="submit-btn" data-testid="login-submit">Sign in</button>
+    </form>
+
+    <!-- Buttons with various accessible-name sources -->
+    <section>
+      <button class="btn-primary" aria-label="Add to cart">+</button>
+      <button>Plain Text Button</button>
+      <button title="Help" class="icon-only" aria-hidden="false">?</button>
+      <a role="button" href="#" id="link-button">Link styled as button</a>
+    </section>
+
+    <!-- A host with an open shadow root, populated by script below -->
+    <div id="shadow-host"></div>
+
+    <!-- Some non-interactive noise that should NOT dominate the scan -->
+    <p>Just some descriptive text that is not interactive.</p>
+    <div class="decorative" style="display:none">hidden box</div>
+  </main>
+
+  <script>
+    // Open shadow root with an interactive element inside.
+    const host = document.getElementById('shadow-host');
+    const root = host.attachShadow({ mode: 'open' });
+    root.innerHTML = '<button id="shadow-btn" data-testid="shadow-action">Shadow Action</button>';
+  </script>
+</body>
+</html>
