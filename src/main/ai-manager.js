@@ -90,7 +90,7 @@ function _orchestrationPromptPath() {
   // Shipped next to the mcp server in dist; falls back to the source skill folder in dev.
   const candidates = [
     path.join(_distDir(), 'mcp', 'orchestration.md'),
-    path.join(process.cwd(), '.claude', 'skills', 'agentic-test-automation', 'orchestration.md'),
+    path.join(process.cwd(), '.claude', 'skills', 'intent2spec-agent', 'orchestration.md'),
   ];
   for (const c of candidates) {
     if (fs.existsSync(c)) {

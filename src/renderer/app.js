@@ -53,7 +53,7 @@ if (!api) {
   throw new Error('window.elementTrackerAPI is undefined');
 }
 
-api.setWindowTitle?.('Agentic Test Automation');
+api.setWindowTitle?.('Intent2Spec Agent');
 
 let _detailsPanel = null;
 let _aiDetailsPanel = null;

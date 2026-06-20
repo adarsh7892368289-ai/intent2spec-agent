@@ -213,7 +213,7 @@ function createMainWindow() {
       preload: path.join(__dirname, 'preload.js'),
       webSecurity: true,
     },
-    title: 'Agentic Test Automation',
+    title: 'Intent2Spec Agent',
     backgroundColor: '#111827',
     ...(process.platform === 'darwin'
       ? { titleBarStyle: 'hiddenInset', trafficLightPosition: { x: 12, y: 14 } }

@@ -6,7 +6,7 @@ const fs = require('fs');
 class CopyOrchestrationPlugin {
   apply(compiler) {
     compiler.hooks.afterEmit.tap('CopyOrchestrationPlugin', () => {
-      const src = path.resolve(__dirname, '.claude/skills/agentic-test-automation/orchestration.md');
+      const src = path.resolve(__dirname, '.claude/skills/intent2spec-agent/orchestration.md');
       const destDir = path.resolve(__dirname, 'dist/mcp');
       try {
         fs.mkdirSync(destDir, { recursive: true });

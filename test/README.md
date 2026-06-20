@@ -1,6 +1,6 @@
 # Test suite
 
-Production-grade automated tests for Agentic Test Automation, run with
+Production-grade automated tests for Intent2Spec Agent, run with
 [Vitest](https://vitest.dev).
 
 ## Running

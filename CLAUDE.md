@@ -4,7 +4,7 @@ Guidance for Claude Code in this repository. **Skill routing and global working 
 
 ## Project
 
-Agentic Test Automation — a cross-platform **Electron + Playwright** desktop app that captures interactive web elements, generates resilient XPath/CSS selectors, and turns plain-English flows into self-healing Playwright tests via a headless AI agent. Cross-platform (Windows/macOS/Linux), cross-browser (Chromium/Firefox/WebKit via Playwright).
+Intent2Spec Agent — a cross-platform **Electron + Playwright** desktop app that captures interactive web elements, generates resilient XPath/CSS selectors, and turns plain-English flows into self-healing Playwright tests via a headless AI agent. Cross-platform (Windows/macOS/Linux), cross-browser (Chromium/Firefox/WebKit via Playwright).
 
 - **Main**: `src/main/` — Electron main process: window lifecycle, IPC handlers, `playwright-manager` (automated headless scans), `record-manager` (headed live-capture sessions), `browser-detector`, `app://` protocol, export save-dialog.
 - **Renderer**: `src/renderer/` — vanilla-JS UI (no framework): `state.js` (reduce/dispatch/subscribe), `application/` workflows, `components/`, `infrastructure/idb-repository.js` (IndexedDB), `styles/` (design tokens).

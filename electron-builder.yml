@@ -1,6 +1,6 @@
-appId: com.agentic-test-automation.app
-productName: Agentic Test Automation
-copyright: Copyright © 2026 Agentic Test Automation
+appId: com.intent2spec.agent.app
+productName: Intent2Spec Agent
+copyright: Copyright © 2026 Intent2Spec Agent
 afterPack: ./scripts/afterpack-fuses.js
 directories:
   buildResources: build
@@ -39,13 +39,13 @@ nsis:
   allowToChangeInstallationDirectory: true
 linux:
   category: Development
-  maintainer: Agentic Test Automation <noreply@localhost>
+  maintainer: Intent2Spec Agent <noreply@localhost>
   synopsis: Resilient XPath/CSS selector capture desktop app.
   target:
     - AppImage
     - deb
   desktop:
     entry:
-      Name: Agentic Test Automation
+      Name: Intent2Spec Agent
       Comment: Resilient XPath/CSS selector capture desktop app.
       Categories: Development;

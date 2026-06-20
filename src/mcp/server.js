@@ -104,7 +104,7 @@ async function bindRef(page, ref) {
 
 // ---- server + tools ---------------------------------------------------------
 
-const server = new McpServer({ name: 'agentic-test-automation', version: '1.0.0' });
+const server = new McpServer({ name: 'intent2spec-agent', version: '1.0.0' });
 
 server.registerTool(
   'list_reports',

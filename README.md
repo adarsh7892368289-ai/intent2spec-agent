@@ -1,4 +1,4 @@
-# Agentic Test Automation
+# Intent2Spec Agent
 
 A cross-platform **Electron desktop app** where you describe a browser flow in **plain
 English** and an **AI agent drives a real browser to generate a runnable, self-healing
@@ -93,7 +93,7 @@ The element-enrichment engine is bundled into a single `tracker-bundle.js`, inje
 ## Architecture
 
 ```
-agentic-test-automation/
+intent2spec-agent/
 ├── electron-builder.yml         packaging (NSIS / DMG / AppImage+deb, asar, fuses)
 ├── webpack.main.config.js       Electron main      → dist/index.js, preload.js
 ├── webpack.renderer.config.js   vanilla-JS UI      → dist/renderer/

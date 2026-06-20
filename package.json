@@ -1,8 +1,8 @@
 {
-  "name": "agentic-test-automation",
+  "name": "intent2spec-agent",
   "version": "3.0.0",
   "private": true,
-  "description": "Agentic Test Automation — capture resilient locators and turn natural-language flows into self-healing Playwright tests, cross-browser and cross-OS",
+  "description": "Intent2Spec Agent — capture resilient locators and turn natural-language flows into self-healing Playwright tests, cross-browser and cross-OS",
   "main": "dist/index.js",
   "keywords": [
     "agentic",
@@ -19,12 +19,12 @@
   "author": "",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/adarsh7892368289-ai/agentic-test-automation.git"
+    "url": "git+https://github.com/adarsh7892368289-ai/intent2spec-agent.git"
   },
   "bugs": {
-    "url": "https://github.com/adarsh7892368289-ai/agentic-test-automation/issues"
+    "url": "https://github.com/adarsh7892368289-ai/intent2spec-agent/issues"
   },
-  "homepage": "https://github.com/adarsh7892368289-ai/agentic-test-automation#readme",
+  "homepage": "https://github.com/adarsh7892368289-ai/intent2spec-agent#readme",
   "license": "MIT",
   "scripts": {
     "start": "concurrently \"npm run watch:bundle\" \"npm run watch:main\" \"npm run watch:renderer\" \"electron .\"",
